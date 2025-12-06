@@ -117,9 +117,9 @@ void printPath(pair<int,int> exitcell,
 // STUDENTS IMPLEMENT DFS HERE
 // Add arguments, return type, and logic
 // ----------------------------------------------------------
-// bool dfs(……) {
-//     // Your code here
-// }
+ bool dfs(……) {
+     // Your code here
+}
 
 
 // ----------------------------------------------------------
