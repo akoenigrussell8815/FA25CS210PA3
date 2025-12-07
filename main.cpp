@@ -118,7 +118,7 @@ void printPath(pair<int,int> exitcell,
 // Add arguments, return type, and logic
 // ----------------------------------------------------------
 
-
+//I used the parent row and column vectors as my stack and used recursion to traverse the graph.
 
 bool dfs(int r, int c, //point of entry
         const vector<vector<int>>& maze,
@@ -127,17 +127,17 @@ bool dfs(int r, int c, //point of entry
         vector<vector<int>>& parent_c,
         int exit_r, int exit_c) {
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) { // this for loop just goes through the direction of each node as my recursion follows.
         if (r+dr[i] < maze.size() && r+dr[i] >= 0 && c+dc[i] < maze[0].size() && c+dc[i] >= 0) {
-            if ((r+dr[i] == exit_r && c+dc[i] == exit_c)) {
+            if ((r+dr[i] == exit_r && c+dc[i] == exit_c)) { //this is my first base case, so if it reaches the end then it returns true all the way back to the original. Other base case is at the bottom.
                 parent_c[r+dr[i]][c+dc[i]] = c;
                 parent_r[r+dr[i]][c+dc[i]] = r;
                 c = c+dc[i];
                 r = r+dr[i];
                 return true;
             }
-            if (maze[r+dr[i]][c+dc[i]] == 0) {
-                if (visited[r+dr[i]][c+dc[i]] == false) {
+            if (maze[r+dr[i]][c+dc[i]] == 0) { //checks if it's open
+                if (visited[r+dr[i]][c+dc[i]] == false) { //checks if it's been visited :: if it is open and hasn't been visited then the code saves it's current spot and goes on to recur the code on the next node.
                     parent_c[r+dr[i]][c+dc[i]] = c;
                     parent_r[r+dr[i]][c+dc[i]] = r;
                     visited[r+dr[i]][c+dc[i]] = true;
@@ -146,7 +146,7 @@ bool dfs(int r, int c, //point of entry
                     if (dfs(r, c, maze, visited, parent_r, parent_c, exit_r, exit_c)) {
                         return true;
                     }
-                    int temp_c = parent_c[r][c];
+                    int temp_c = parent_c[r][c]; //If the node that was recurred is false or doesn't have a path to exit then it goes pac to the saved parent.
                     r = parent_r[r][c];
                     c = temp_c;
                 }
@@ -154,7 +154,7 @@ bool dfs(int r, int c, //point of entry
         }
     }
 
-    return false;
+    return false;// Other Base case: If the code goes through every possible path and finds no exit, then it returns false and there is no path.
 
 }
 
