@@ -132,8 +132,6 @@ bool dfs(int r, int c, //point of entry
             if ((r+dr[i] == exit_r && c+dc[i] == exit_c)) { //this is my first base case, so if it reaches the end then it returns true all the way back to the original. Other base case is at the bottom.
                 parent_c[r+dr[i]][c+dc[i]] = c;
                 parent_r[r+dr[i]][c+dc[i]] = r;
-                c = c+dc[i];
-                r = r+dr[i];
                 return true;
             }
             if (maze[r+dr[i]][c+dc[i]] == 0) { //checks if it's open
