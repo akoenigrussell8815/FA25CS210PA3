@@ -117,8 +117,45 @@ void printPath(pair<int,int> exitcell,
 // STUDENTS IMPLEMENT DFS HERE
 // Add arguments, return type, and logic
 // ----------------------------------------------------------
- bool dfs(……) {
-     // Your code here
+
+
+
+bool dfs(int r, int c, //point of entry
+        const vector<vector<int>>& maze,
+        vector<vector<bool>>& visited,
+        vector<vector<int>>& parent_r,
+        vector<vector<int>>& parent_c,
+        int exit_r, int exit_c) {
+
+    for (int i = 0; i < 4; i++) {
+        if (r+dr[i] < maze.size() && r+dr[i] >= 0 && c+dc[i] < maze[0].size() && c+dc[i] >= 0) {
+            if ((r+dr[i] == exit_r && c+dc[i] == exit_c)) {
+                parent_c[r+dr[i]][c+dc[i]] = c;
+                parent_r[r+dr[i]][c+dc[i]] = r;
+                c = c+dc[i];
+                r = r+dr[i];
+                return true;
+            }
+            if (maze[r+dr[i]][c+dc[i]] == 0) {
+                if (visited[r+dr[i]][c+dc[i]] == false) {
+                    parent_c[r+dr[i]][c+dc[i]] = c;
+                    parent_r[r+dr[i]][c+dc[i]] = r;
+                    visited[r+dr[i]][c+dc[i]] = true;
+                    c = c+dc[i];
+                    r = r+dr[i];
+                    if (dfs(r, c, maze, visited, parent_r, parent_c, exit_r, exit_c)) {
+                        return true;
+                    }
+                    int temp_c = parent_c[r][c];
+                    r = parent_r[r][c];
+                    c = temp_c;
+                }
+            }
+        }
+    }
+
+    return false;
+
 }
 
 
@@ -159,17 +196,17 @@ int main() {
     // STUDENT WORK:
     // Call your DFS, track visited, and fill parent_r and parent_c
     // ------------------------------------------------------
-    // bool found = dfs(ent_r, ent_c, maze, visited, parent_r, parent_c, exit_r, exit_c);
+    bool found = dfs(ent_r, ent_c, maze, visited, parent_r, parent_c, exit_r, exit_c);
 
     // ------------------------------------------------------
     // STUDENT WORK:
     // If found, print the path
     // ------------------------------------------------------
-    // if (found) {
-    //     printPath(exitcell, parent_r, parent_c, ent_r, ent_c);
-    // } else {
-    //     cout << "\nNo path exists.\n";
-    // }
+    if (found) {
+        printPath(exitcell, parent_r, parent_c, ent_r, ent_c);
+    } else {
+        cout << "\nNo path exists.\n";
+    }
 
     return 0;
 }
